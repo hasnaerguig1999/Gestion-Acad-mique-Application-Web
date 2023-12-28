@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFacultyDto } from './dto/create-faculty.dto';
 import { UpdateFacultyDto } from './dto/update-faculty.dto';
-
+import { Faculty } from './entities/faculty.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class FacultiesService {
-  create(createFacultyDto: CreateFacultyDto) {
-    return 'This action adds a new faculty';
+  constructor(
+    @InjectRepository(Faculty) private readonly facultyRepository: Repository<Faculty>,
+  ) {}
+  
+   async create(createFacultyDto: CreateFacultyDto): Promise<Faculty> {
+    await this.facultyRepository.save(createFacultyDto);
+    const faculty = new Faculty();
+    faculty.name = createFacultyDto.name;
+    faculty.address = createFacultyDto.address;
+    return this.facultyRepository.save(faculty);
   }
 
-  findAll() {
-    return `This action returns all faculties`;
+  findAll(): Promise<Faculty[]> {
+    return this.facultyRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} faculty`;
+  findOne(id: number): Promise<Faculty> {
+    return this.facultyRepository.findOneBy({id});
   }
 
-  update(id: number, updateFacultyDto: UpdateFacultyDto) {
-    return `This action updates a #${id} faculty`;
+  update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
+    const faculty = new Faculty();
+    faculty.name = updateFacultyDto.name;
+    faculty.address = updateFacultyDto.address;
+    faculty.id = id;
+    return this.facultyRepository.save(faculty);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} faculty`;
+  removeFaculty(id: number): Promise<{ affected?: number }> {
+    return this.facultyRepository.delete(id);
   }
+  // remove('id') Promise<{id: number}> {
+  //   return this.facultyRepository.delete(id);
+  // }
 }

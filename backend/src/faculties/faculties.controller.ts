@@ -10,8 +10,10 @@ export class FacultiesController {
   @Post()
   create(@Body() createFacultyDto: CreateFacultyDto) {
     return this.facultiesService.create(createFacultyDto);
+
   }
 
+  
   @Get()
   findAll() {
     return this.facultiesService.findAll();
@@ -29,6 +31,6 @@ export class FacultiesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.facultiesService.remove(+id);
+    return this.facultiesService.removeFaculty(+id);
   }
 }
