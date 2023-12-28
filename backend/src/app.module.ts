@@ -1,17 +1,26 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
+import { FacultyEntity } from './faculties/entities/faculty.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CoursesModule } from './courses/courses.module';
-import { DepartementsModule } from './departements/departements.module';
-import { FacultiesModule } from './faculties/faculties.module';
-import { RoomsModule } from './rooms/rooms.module';
-import { StudentsModule } from './students/students.module';
-import { SubjectsModule } from './subjects/subjects.module';
-import { TeachersModule } from './teachers/teachers.module';
-import { ProgrammesModule } from './programmes/programmes.module';
+
+dotenv.config();
 
 @Module({
-  imports: [CoursesModule, DepartementsModule, FacultiesModule, RoomsModule, StudentsModule, SubjectsModule, TeachersModule, ProgrammesModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: process.env.DB_TYPE as any,
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [FacultyEntity],
+      synchronize: true,
+      logging: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
