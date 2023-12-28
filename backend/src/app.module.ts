@@ -2,8 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { FacultyEntity } from './faculties/entities/faculty.entity';
+import { Teacher } from './teachers/entities/teacher.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TeachersController } from './teachers/teachers.controller';
+import { TeachersService } from './teachers/teachers.service';
 
 dotenv.config();
 
@@ -16,12 +19,13 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [FacultyEntity],
+      entities: [FacultyEntity, Teacher],
       synchronize: true,
       logging: true,
     }),
+    TypeOrmModule.forFeature([Teacher]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TeachersController],
+  providers: [AppService, TeachersService],
 })
 export class AppModule {}
