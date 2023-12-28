@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 // import { DepartmentEntity } from '../../departements/entities/departement.entity';
 
 @Entity()
-export class FacultyEntity {
+export class Faculty {
   @PrimaryGeneratedColumn()
   id: number;
 
