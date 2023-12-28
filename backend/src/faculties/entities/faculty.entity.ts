@@ -7,10 +7,10 @@ export class FacultyEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 30 })
   name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 40 })
   address: string;
 
 //   @OneToMany(() => DepartmentEntity, department => department.faculty)
