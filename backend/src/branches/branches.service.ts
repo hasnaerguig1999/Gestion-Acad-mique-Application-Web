@@ -1,26 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Branch } from './entities/branch.entity'; // Import the Branche class
 
 @Injectable()
 export class BranchesService {
-  create(createBranchDto: CreateBranchDto) {
-    return 'This action adds a new branch';
+  constructor(
+    @InjectRepository(Branch) private readonly branchRepository: Repository<Branch>,
+  ) {}
+  async create(createBranchDto: CreateBranchDto): Promise<Branch> {
+    const branch= await this.branchRepository.save(createBranchDto);
+    return branch;
   }
 
-  findAll() {
-    return `This action returns all branches`;
+   async findAll() :Promise<Branch[]>{
+    return await this.branchRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} branch`;
+  async findOne(id: number): Promise<Branch> {
+    const branch = await this.branchRepository.findOneBy({id});
+    if (!branch) {
+      throw new NotFoundException(`Branch #${id} not found`);
+    }
+    return branch;
   }
 
-  update(id: number, updateBranchDto: UpdateBranchDto) {
-    return `This action updates a #${id} branch`;
+
+  async update(id: number, updateBranchDto: UpdateBranchDto) {
+    const branch = await this.branchRepository.findOneBy({id});
+    if (!branch) {
+      throw new NotFoundException(`Branch #${id} not found`);
+    }
+
+    const updatedBranch = this.branchRepository.merge(branch, updateBranchDto);
+    return this.branchRepository.save(updatedBranch);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} branch`;
+  async remove(id: number) {
+    const branch = await this.branchRepository.findOneBy({id});
+    if (!branch) {
+      throw new NotFoundException(`Branch #${id} not found`);
+    }
+    return this.branchRepository.delete(id);
   }
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Min, MinLength, isString } from "class-validator";
+import { IsNotEmpty, IsString, Min, MinLength} from "class-validator";
 
 
 export class CreateFacultyDto {

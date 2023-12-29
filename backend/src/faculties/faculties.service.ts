@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFacultyDto } from './dto/create-faculty.dto';
 import { UpdateFacultyDto } from './dto/update-faculty.dto';
 import { Faculty } from './entities/faculty.entity';
@@ -10,34 +10,37 @@ export class FacultiesService {
     @InjectRepository(Faculty) private readonly facultyRepository: Repository<Faculty>,
   ) {}
   
-   async create(createFacultyDto: CreateFacultyDto): Promise<Faculty> {
-    await this.facultyRepository.save(createFacultyDto);
-    const faculty = new Faculty();
-    faculty.name = createFacultyDto.name;
-    faculty.address = createFacultyDto.address;
-    return this.facultyRepository.save(faculty);
+  async create(createFacultyDto: CreateFacultyDto): Promise<Faculty> {
+    const faculty= await this.facultyRepository.save(createFacultyDto);
+    return faculty;
+   
   }
 
-  findAll(): Promise<Faculty[]> {
-    return this.facultyRepository.find();
+   async findAll(): Promise<Faculty[]> {
+    return await this.facultyRepository.find();
   }
 
-  findOne(id: number): Promise<Faculty> {
-    return this.facultyRepository.findOneBy({id});
+   async findOne(id: number): Promise<Faculty> {
+    const faculty = await this.facultyRepository.findOneBy({id});
+    if (!faculty) {
+      throw new NotFoundException(`Faculty #${id} not found`);
+    }
+    return faculty;
   }
 
-  update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
-    const faculty = new Faculty();
-    faculty.name = updateFacultyDto.name;
-    faculty.address = updateFacultyDto.address;
-    faculty.id = id;
-    return this.facultyRepository.save(faculty);
+   async update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
+    const faculty = await this.facultyRepository.findOneBy({id});
+    if (!faculty) {
+      throw new NotFoundException(`Faculty #${id} not found`);
+    }
+    return this.facultyRepository.save(updateFacultyDto);
   }
 
-  removeFaculty(id: number): Promise<{ affected?: number }> {
+  async removeFaculty(id: number): Promise<{ affected?: number }> {
+    const faculty = await this.facultyRepository.findOneBy({id});
+    if (!faculty) {
+      throw new NotFoundException(`Faculty #${id} not found`);
+    }
     return this.facultyRepository.delete(id);
   }
-  // remove('id') Promise<{id: number}> {
-  //   return this.facultyRepository.delete(id);
-  // }
 }

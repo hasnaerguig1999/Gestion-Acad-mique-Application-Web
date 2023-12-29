@@ -11,6 +11,11 @@ import { Faculty} from './faculties/entities/faculty.entity';
 import { FacultiesController } from './faculties/faculties.controller';
 import { FacultiesService } from './faculties/faculties.service';
 import { BranchesModule } from './branches/branches.module';
+import { BranchesController } from './branches/branches.controller';
+import { Branch } from './branches/entities/branch.entity';
+import { BranchesService } from './branches/branches.service';
+import { FacultiesModule } from './faculties/faculties.module';
+import { TeachersModule } from './teachers/teachers.module';
 
 dotenv.config();
 
@@ -23,14 +28,13 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Faculty, Teacher],
+      autoLoadEntities: true,
       synchronize: true,
       logging: true,
     }),
-    TypeOrmModule.forFeature([Faculty, Teacher]),
     BranchesModule,
+    FacultiesModule,
+    TeachersModule,
   ],
-  controllers: [AppController, FacultiesController, TeachersController],
-  providers: [AppService, FacultiesService, TeachersService],
 })
 export class AppModule {}
