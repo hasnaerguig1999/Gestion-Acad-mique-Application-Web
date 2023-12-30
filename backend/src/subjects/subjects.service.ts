@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Subject } from './entities/subject.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SubjectsService {
-  create(createSubjectDto: CreateSubjectDto) {
-    return 'This action adds a new subject';
+  constructor(
+    @InjectRepository(Subject) private readonly subjectRepository: Repository<Subject>,
+  ) {}
+  
+  async create(createSubjectDto: CreateSubjectDto): Promise<Subject> {
+    const subject= await this.subjectRepository.save(createSubjectDto);
+    return subject;
   }
 
-  findAll() {
-    return `This action returns all subjects`;
+  async findAll(): Promise<Subject[]> {
+    return await this.subjectRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subject`;
+   async findOne(id: number) :Promise<Subject>{
+    const subject = await this.subjectRepository.findOneBy({id});
+    if (!subject) {
+      throw new NotFoundException(`Subject #${id} not found`);
+    }
+    return subject;
   }
 
-  update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return `This action updates a #${id} subject`;
+   async update(id: number, updateSubjectDto: UpdateSubjectDto): Promise<Subject> {
+    const subject = await this.subjectRepository.findOneBy({id});
+    if (!subject) {
+      throw new NotFoundException(`Subject #${id} not found`);
+    }
+
+    const updatedSubject = this.subjectRepository.merge(subject, updateSubjectDto);
+    return this.subjectRepository.save(updatedSubject);
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subject`;
+   async remove(id: number){
+    const subject = await this.subjectRepository.findOneBy({id});
+    if (!subject) {
+      throw new NotFoundException(`Subject #${id} not found`);
+    }
+    return this.subjectRepository.delete(id);
   }
 }
