@@ -1,21 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-
-import { Teacher } from './teachers/entities/teacher.entity';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TeachersController } from './teachers/teachers.controller';
-import { TeachersService } from './teachers/teachers.service';
-import { Faculty} from './faculties/entities/faculty.entity';
-import { FacultiesController } from './faculties/faculties.controller';
-import { FacultiesService } from './faculties/faculties.service';
 import { BranchesModule } from './branches/branches.module';
-import { BranchesController } from './branches/branches.controller';
-import { Branch } from './branches/entities/branch.entity';
-import { BranchesService } from './branches/branches.service';
 import { FacultiesModule } from './faculties/faculties.module';
 import { TeachersModule } from './teachers/teachers.module';
+import { SubjectsModule } from './subjects/subjects.module';
 
 dotenv.config();
 
@@ -35,6 +24,7 @@ dotenv.config();
     BranchesModule,
     FacultiesModule,
     TeachersModule,
+    SubjectsModule,
   ],
 })
 export class AppModule {}
