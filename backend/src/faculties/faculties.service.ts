@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class FacultiesService {
+
   constructor(
     @InjectRepository(Faculty) private readonly facultyRepository: Repository<Faculty>,
   ) {}
@@ -36,7 +37,7 @@ export class FacultiesService {
     return this.facultyRepository.save(updateFacultyDto);
   }
 
-  async removeFaculty(id: number): Promise<{ affected?: number }> {
+  async remove(id: number): Promise<{ affected?: number }> {
     const faculty = await this.facultyRepository.findOneBy({id});
     if (!faculty) {
       throw new NotFoundException(`Faculty #${id} not found`);

@@ -2,12 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FacultiesService } from './faculties.service';
 import { CreateFacultyDto } from './dto/create-faculty.dto';
 import { UpdateFacultyDto } from './dto/update-faculty.dto';
+import { DeleteResult } from 'typeorm';
 
 @Controller('faculties')
 export class FacultiesController {
+  
   constructor(private readonly facultiesService: FacultiesService) {}
 
-  @Post()
+  @Post(':id')
   create(@Body() createFacultyDto: CreateFacultyDto) {
     return this.facultiesService.create(createFacultyDto);
 
@@ -31,6 +33,6 @@ export class FacultiesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.facultiesService.removeFaculty(+id);
+    return this.facultiesService.remove(+id);
   }
 }
