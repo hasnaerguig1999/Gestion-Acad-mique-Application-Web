@@ -38,6 +38,10 @@ export class FacultiesService {
   }
 
   async remove(id: number) {
-    return await this.facultyRepository.delete(id);
+    const faculty = await this.facultyRepository.findOne({where:{id}});
+    if (!faculty) {
+      throw new NotFoundException(`Faculty #${id} not found`);
+    }
+    return  this.facultyRepository.delete(id);
   }
 }
