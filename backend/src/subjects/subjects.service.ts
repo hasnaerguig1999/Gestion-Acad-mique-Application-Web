@@ -37,6 +37,10 @@ export class SubjectsService {
   }
 
    async remove(id: number){
-    return await this.subjectRepository.delete(id);
+    const subject = await this.subjectRepository.findOne({where:{id}});
+    if (!subject) {
+      throw new NotFoundException(`Subject #${id} not found`);
+    }
+    return  this.subjectRepository.delete(id);
   }
 }
