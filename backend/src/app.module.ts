@@ -5,7 +5,8 @@ import { BranchesModule } from './branches/branches.module';
 import { FacultiesModule } from './faculties/faculties.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { SubjectsModule } from './subjects/subjects.module';
-import { UsersModule } from './users/users.module';
+import { RoomsModule } from './rooms/rooms.module';
+
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ dotenv.config();
     FacultiesModule,
     TeachersModule,
     SubjectsModule,
-    UsersModule,
+    RoomsModule
   ],
 })
 export class AppModule {}
