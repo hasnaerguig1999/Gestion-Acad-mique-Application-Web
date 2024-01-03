@@ -22,26 +22,22 @@ export class FacultiesService {
   }
 
    async findOne(id: number): Promise<Faculty> {
-    const faculty = await this.facultyRepository.findOneBy({id});
+    const faculty = await this.facultyRepository.findOne({where:{id}});
     if (!faculty) {
       throw new NotFoundException(`Faculty #${id} not found`);
     }
     return faculty;
   }
 
-   async update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
-    const faculty = await this.facultyRepository.findOneBy({id});
+  async update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
+    const faculty = await this.facultyRepository.update(id, updateFacultyDto);
     if (!faculty) {
       throw new NotFoundException(`Faculty #${id} not found`);
     }
-    return this.facultyRepository.save(updateFacultyDto);
+    return this.facultyRepository.findOne({where:{id}});
   }
 
-  async remove(id: number): Promise<{ affected?: number }> {
-    const faculty = await this.facultyRepository.findOneBy({id});
-    if (!faculty) {
-      throw new NotFoundException(`Faculty #${id} not found`);
-    }
-    return this.facultyRepository.delete(id);
+  async remove(id: number) {
+    return await this.facultyRepository.delete(id);
   }
 }

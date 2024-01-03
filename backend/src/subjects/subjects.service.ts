@@ -21,29 +21,22 @@ export class SubjectsService {
   }
 
    async findOne(id: number) :Promise<Subject>{
-    const subject = await this.subjectRepository.findOneBy({id});
+    const subject = await this.subjectRepository.findOne({where:{id}});
     if (!subject) {
       throw new NotFoundException(`Subject #${id} not found`);
     }
     return subject;
   }
 
-   async update(id: number, updateSubjectDto: UpdateSubjectDto): Promise<Subject> {
-    const subject = await this.subjectRepository.findOneBy({id});
+  async update(id: number, updateSubjectDto: UpdateSubjectDto) : Promise<Subject> {
+    const subject = await this.subjectRepository.update(id, updateSubjectDto);
     if (!subject) {
       throw new NotFoundException(`Subject #${id} not found`);
     }
-
-    const updatedSubject = this.subjectRepository.merge(subject, updateSubjectDto);
-    return this.subjectRepository.save(updatedSubject);
-
+    return this.subjectRepository.findOne({where:{id}});
   }
 
    async remove(id: number){
-    const subject = await this.subjectRepository.findOneBy({id});
-    if (!subject) {
-      throw new NotFoundException(`Subject #${id} not found`);
-    }
-    return this.subjectRepository.delete(id);
+    return await this.subjectRepository.delete(id);
   }
 }
