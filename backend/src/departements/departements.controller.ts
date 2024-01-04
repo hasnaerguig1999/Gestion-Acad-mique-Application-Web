@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { DepartementsService } from './departements.service';
 import { CreateDepartementDto } from './dto/create-departement.dto';
 import { UpdateDepartementDto } from './dto/update-departement.dto';
@@ -6,7 +6,7 @@ import { UpdateDepartementDto } from './dto/update-departement.dto';
 @Controller('departements')
 export class DepartementsController {
   constructor(private readonly departementsService: DepartementsService) {}
-
+  
   @Post()
   create(@Body() createDepartementDto: CreateDepartementDto) {
     return this.departementsService.create(createDepartementDto);
@@ -18,7 +18,7 @@ export class DepartementsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.departementsService.findOne(+id);
   }
 
