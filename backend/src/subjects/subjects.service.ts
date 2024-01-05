@@ -33,11 +33,11 @@ export class SubjectsService {
     if (!subject) {
       throw new NotFoundException(`Subject #${id} not found`);
     }
-    return this.subjectRepository.findOne({where:{id}});
+    return this.subjectRepository.findOne({where:{id}, relations: ['rooms']});
   }
 
    async remove(id: number){
-    const subject = await this.subjectRepository.findOne({where:{id}});
+    const subject = await this.subjectRepository.findOne({where:{id}, relations: ['rooms']});
     if (!subject) {
       throw new NotFoundException(`Subject #${id} not found`);
     }

@@ -13,8 +13,6 @@ export class CreateDepartementDto {
     @IsNotEmpty()
     supervisor : string;
 
-   
-
     @IsString()
     @IsNotEmpty()
     teachers : string;
@@ -22,6 +20,8 @@ export class CreateDepartementDto {
     @IsNotEmpty()
     @IsNumber()
     facultyId: number;
+
+   
 
 
 

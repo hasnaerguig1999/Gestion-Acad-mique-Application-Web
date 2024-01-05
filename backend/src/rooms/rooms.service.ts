@@ -20,7 +20,7 @@ export class RoomsService {
   }
 
   async findAll() {
-    const rooms = await this.roomRepository.find();
+    const rooms = await this.roomRepository.find({relations: ['subject']});
     if (!rooms) {
       throw new NotFoundException('rooms not found');
     }
@@ -28,7 +28,7 @@ export class RoomsService {
   }
 
   async findOne(id: number) {
-    const room = await this.roomRepository.findBy({ id: id });
+    const room = await this.roomRepository.findOne({where: {id}, relations: ['subject']});
     if (!room) {
       throw new NotFoundException('room is not found');
     }
