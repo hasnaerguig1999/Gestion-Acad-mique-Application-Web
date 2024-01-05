@@ -17,7 +17,7 @@ export class SubjectsService {
   }
 
   async findAll(): Promise<Subject[]> {
-    return await this.subjectRepository.find();
+    return await this.subjectRepository.find({relations:['branch']});
   }
 
    async findOne(id: number) :Promise<Subject>{
