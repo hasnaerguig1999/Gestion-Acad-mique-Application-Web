@@ -1,7 +1,9 @@
 
-import { IsNotEmpty, IsString, MinLength} from "class-validator";
+import { IsNotEmpty, IsString, MinLength, IsNumber} from "class-validator";
 
 export class CreateDepartementDto {
+
+   
     @IsString()
     @MinLength(4,{message:"name must be at least 4 characters"})
     @IsNotEmpty()
@@ -11,11 +13,17 @@ export class CreateDepartementDto {
     @IsNotEmpty()
     supervisor : string;
 
-    @IsString()
-    @IsNotEmpty()
-    faculte : string;
+   
 
     @IsString()
     @IsNotEmpty()
     teachers : string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    facultyId: number;
+
+
+
+    
 }

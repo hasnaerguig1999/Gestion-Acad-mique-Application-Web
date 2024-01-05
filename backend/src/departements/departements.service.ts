@@ -20,13 +20,13 @@ export class DepartementsService {
   }
 
   async findAll() : Promise<Departement[]> {
-    const apartement = await this.departementRepository.find();
+    const apartement = await this.departementRepository.find({relations: ['faculty']});
     if (!apartement) throw new NotFoundException;
     return apartement;
   }
 
   async findOne(id: number) : Promise<Departement> {
-    const departement = await this.departementRepository.findOne({where : {id}});
+    const departement = await this.departementRepository.findOne({where : {id}, relations: ['faculty']});
     if (!departement) throw new NotFoundException(`Departement with Id : ${id} Not Found !!`);
     return departement;
   }
