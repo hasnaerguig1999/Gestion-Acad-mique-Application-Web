@@ -20,7 +20,7 @@ export class BranchesService {
   }
 
   async findOne(id: number): Promise<Branch> {
-    const branch = await this.branchRepository.findOneBy({id});
+    const branch = await this.branchRepository.findOne({where:{id}});
     if (!branch) {
       throw new NotFoundException(`Branch #${id} not found`);
     }
@@ -28,21 +28,19 @@ export class BranchesService {
   }
 
 
-  async update(id: number, updateBranchDto: UpdateBranchDto) {
-    const branch = await this.branchRepository.findOneBy({id});
+  async update(id: number, updateBranchDto: UpdateBranchDto) : Promise<Branch> {
+    const branch = await this.branchRepository.update(id, updateBranchDto);
     if (!branch) {
       throw new NotFoundException(`Branch #${id} not found`);
     }
-
-    const updatedBranch = this.branchRepository.merge(branch, updateBranchDto);
-    return this.branchRepository.save(updatedBranch);
+    return this.branchRepository.findOne({where:{id}});
   }
 
   async remove(id: number) {
-    const branch = await this.branchRepository.findOneBy({id});
+    const branch = await this.branchRepository.findOne({where:{id}});
     if (!branch) {
       throw new NotFoundException(`Branch #${id} not found`);
     }
-    return this.branchRepository.delete(id);
+    return  this.branchRepository.delete(id);
   }
 }

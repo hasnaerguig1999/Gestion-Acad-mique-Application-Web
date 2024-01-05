@@ -1,11 +1,13 @@
 
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-// import { DepartmentEntity } from '../../departements/entities/departement.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+import { Departement } from '../../departements/entities/departement.entity';
 
 @Entity()
 export class Faculty {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'varchar', length: 20 })
 
   @Column({ type: 'varchar', length: 30 })
   name: string;
@@ -13,6 +15,7 @@ export class Faculty {
   @Column({ type: 'varchar', length: 40 })
   address: string;
 
-//   @OneToMany(() => DepartmentEntity, department => department.faculty)
-//   departments: DepartmentEntity[];
+  @OneToMany(() => Departement, department => department.facultyId)
+
+  departments: Departement[];
 }

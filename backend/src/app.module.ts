@@ -8,6 +8,9 @@ import { SubjectsModule } from './subjects/subjects.module';
 import { RoomsModule } from './rooms/rooms.module';
 
 
+// import { UsersModule } from './users/users.module';
+import { DepartementsModule } from './departements/departements.module';
+
 dotenv.config();
 
 @Module({
@@ -27,7 +30,10 @@ dotenv.config();
     FacultiesModule,
     TeachersModule,
     SubjectsModule,
-    RoomsModule
+    RoomsModule,
+
+    // UsersModule,
+    DepartementsModule
   ],
 })
 export class AppModule {}

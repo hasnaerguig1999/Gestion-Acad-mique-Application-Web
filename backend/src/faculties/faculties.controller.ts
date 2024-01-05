@@ -5,6 +5,7 @@ import { UpdateFacultyDto } from './dto/update-faculty.dto';
 
 @Controller('faculties')
 export class FacultiesController {
+  
   constructor(private readonly facultiesService: FacultiesService) {}
 
   @Post()
@@ -31,6 +32,6 @@ export class FacultiesController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.facultiesService.removeFaculty(+id);
+    return this.facultiesService.remove(+id);
   }
 }

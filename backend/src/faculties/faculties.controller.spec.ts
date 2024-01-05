@@ -38,4 +38,41 @@ describe('FacultiesController', () => {
     jest.spyOn(service, 'findAll').mockImplementation(() => Promise.resolve(result));
     expect(await controller.findAll()).toBe(result);
   });
-});
+
+  it('should create a faculty', async () => {
+    const facultyDto = { name: 'Faculty1', address: 'Address Faculty' };
+    const createdFaculty = { id: 1, name: 'Faculty1', address: ' Address Faculty' };
+
+    jest.spyOn(service, 'create').mockResolvedValue(createdFaculty);
+
+    expect(await controller.create(facultyDto)).toBe(createdFaculty);
+    expect(service.create).toHaveBeenCalledWith(facultyDto);
+  });
+
+  it('should find a faculty by id', async () => {
+    const faculty = { id: 1, name: 'Faculty1', address: 'Address Faculty' };
+    jest.spyOn(service, 'findOne').mockResolvedValue(faculty);
+  
+    expect(await controller.findOne('1')).toBe(faculty);
+    expect(service.findOne).toHaveBeenCalledWith(1);
+  });
+
+  it('should remove a faculty', async () => {
+    jest.spyOn(service, 'remove').mockResolvedValue({} as never);
+    expect(await controller.remove('1')).toEqual({});
+    expect(service.remove).toHaveBeenCalledWith(1);
+  });
+
+  it('should update a faculty', async () => {
+    const facultyDto = { name: 'Faculty1', address: 'Address Faculty' };
+    const updatedFaculty = { id: 1, name: 'Faculty1', address: 'Address Faculty' };
+
+    jest.spyOn(service, 'update').mockResolvedValue(updatedFaculty);
+    expect(await controller.update('1', facultyDto)).toEqual(updatedFaculty);
+    expect(service.update).toHaveBeenCalledWith(1, facultyDto);
+  });
+
+
+}
+);
+

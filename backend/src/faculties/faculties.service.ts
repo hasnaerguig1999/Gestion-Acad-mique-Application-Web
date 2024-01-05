@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class FacultiesService {
+
   constructor(
     @InjectRepository(Faculty) private readonly facultyRepository: Repository<Faculty>,
   ) {}
@@ -21,26 +22,26 @@ export class FacultiesService {
   }
 
    async findOne(id: number): Promise<Faculty> {
-    const faculty = await this.facultyRepository.findOneBy({id});
+    const faculty = await this.facultyRepository.findOne({where:{id},relations: ['departments']});
     if (!faculty) {
       throw new NotFoundException(`Faculty #${id} not found`);
     }
     return faculty;
   }
 
-   async update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
-    const faculty = await this.facultyRepository.findOneBy({id});
+  async update(id: number, updateFacultyDto: UpdateFacultyDto) : Promise<Faculty> {
+    const faculty = await this.facultyRepository.update(id, updateFacultyDto);
     if (!faculty) {
       throw new NotFoundException(`Faculty #${id} not found`);
     }
-    return this.facultyRepository.save(updateFacultyDto);
+    return this.facultyRepository.findOne({where:{id}});
   }
 
-  async removeFaculty(id: number): Promise<{ affected?: number }> {
-    const faculty = await this.facultyRepository.findOneBy({id});
+  async remove(id: number) {
+    const faculty = await this.facultyRepository.findOne({where:{id}});
     if (!faculty) {
       throw new NotFoundException(`Faculty #${id} not found`);
     }
-    return this.facultyRepository.delete(id);
+    return  this.facultyRepository.delete(id);
   }
 }
