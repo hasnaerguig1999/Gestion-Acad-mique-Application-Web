@@ -8,22 +8,17 @@ export class Subject {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @OneToMany(() => Room, room => room.subject,
+    {cascade: true}) 
+  rooms: Room[];
 
-
-    @OneToMany(() => Room, room => room.subject,{onDelete: 'CASCADE'}) 
-    rooms: Room[];
-  
-
-  
-}
 
   @Column({ type: 'varchar', length: 30 })
   name: string;
 
-
   @ManyToOne(type => Branch, (branch) => branch.subject)
   branch: Branch;
 
-  @Column()
+  @Column({ nullable: true})
   branchId: number;
 }
