@@ -20,6 +20,7 @@ export class RoomsService {
   }
 
   async findAll() {
+
     const rooms = await this.roomRepository.find({relations: ['subject']});
     if (!rooms) {
       throw new NotFoundException('rooms not found');
@@ -28,24 +29,28 @@ export class RoomsService {
   }
 
   async findOne(id: number) {
+
     const room = await this.roomRepository.findOne({where: {id}, relations: ['subject']});
     if (!room) {
+
       throw new NotFoundException('room is not found');
     }
     return room;
   }
 
   async update(id: number, updateRoomDto: UpdateRoomDto) {
-    const room = await this.roomRepository.update(id, updateRoomDto);
-    if (!room) {
-      throw new NotFoundException('the room is not updated');
+    const updatedRoom = await this.roomRepository.update(id, updateRoomDto);
+    if (!updatedRoom) {
+      throw new NotFoundException(
+        'The room with the provided ID was not found.',
+      );
     }
-    return room;
+    return updatedRoom;
   }
 
   async remove(id: number): Promise<void> {
     const room = await this.roomRepository.delete(id);
-    if (room.affected===0) {
+    if (room.affected === 0) {
       throw new NotFoundException('the room is not deleted');
     }
    
