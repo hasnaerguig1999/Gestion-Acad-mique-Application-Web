@@ -15,7 +15,10 @@ export class Faculty {
   @Column({ type: 'varchar', length: 40 })
   address: string;
 
-  @OneToMany(() => Departement, department => department.facultyId)
+  @OneToMany(() => Departement, department => department.faculty)
+  
+
+  
 
   departments: Departement[];
 }

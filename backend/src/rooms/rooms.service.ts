@@ -43,11 +43,11 @@ export class RoomsService {
     return room;
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<void> {
     const room = await this.roomRepository.delete(id);
     if (room.affected===0) {
       throw new NotFoundException('the room is not deleted');
     }
-    return room;
+   
   }
 }

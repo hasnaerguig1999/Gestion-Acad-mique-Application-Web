@@ -17,12 +17,12 @@ export class Departement {
   teachers: string;
 
   
-  @ManyToOne(() => Faculty, faculty => faculty.departments)
+  @ManyToOne(() => Faculty, faculty => faculty.departments, {onDelete: 'CASCADE'})
   faculty: Faculty;
   @Column({ nullable: true})
   facultyId: number; 
   
-
+ 
 
 
 }

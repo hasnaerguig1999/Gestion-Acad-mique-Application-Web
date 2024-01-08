@@ -18,7 +18,7 @@ export class FacultiesService {
   }
 
    async findAll(): Promise<Faculty[]> {
-    return await this.facultyRepository.find();
+    return await this.facultyRepository.find({relations: ['departments']});
   }
 
    async findOne(id: number): Promise<Faculty> {
@@ -37,11 +37,13 @@ export class FacultiesService {
     return this.facultyRepository.findOne({where:{id}});
   }
 
-  async remove(id: number) {
-    const faculty = await this.facultyRepository.findOne({where:{id}});
-    if (!faculty) {
-      throw new NotFoundException(`Faculty #${id} not found`);
-    }
-    return  this.facultyRepository.delete(id);
+async remove(id: number): Promise<void> {
+  const result = await this.facultyRepository.delete(id);
+  
+  if (result.affected === 0) {
+    throw new NotFoundException(`Faculty #${id} not found`);
   }
+
+ 
+}
 }

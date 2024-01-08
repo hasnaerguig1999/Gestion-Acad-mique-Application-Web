@@ -9,7 +9,7 @@ export class Subject {
     name: string;
 
 
-    @OneToMany(() => Room, room => room.subject) 
+    @OneToMany(() => Room, room => room.subject,{onDelete: 'CASCADE'}) 
     rooms: Room[];
   
 

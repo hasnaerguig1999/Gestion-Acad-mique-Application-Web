@@ -12,7 +12,7 @@ export class Room {
   capacity: number;
 
 
-  @ManyToOne(() => Subject, subject => subject.rooms) 
+  @ManyToOne(() => Subject, subject => subject.rooms,{onDelete: 'CASCADE'}) 
   subject: Subject;
   @Column({ nullable: true})
   subjectId: number;

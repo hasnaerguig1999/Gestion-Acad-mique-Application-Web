@@ -37,10 +37,10 @@ export class BranchesService {
   }
 
   async remove(id: number) {
-    const branch = await this.branchRepository.findOne({where:{id}});
-    if (!branch) {
-      throw new NotFoundException(`Branch #${id} not found`);
-    }
-    return  this.branchRepository.delete(id);
-  }
+   const result = await this.branchRepository.delete(id);
+   if(result.affected === 0){
+    throw new NotFoundException(`Branch #${id} not found`);
+   }
+   return result;
+}
 }
