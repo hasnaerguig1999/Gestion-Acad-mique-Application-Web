@@ -20,13 +20,19 @@ export class RoomsService {
   }
 
   async findAll() {
-    const rooms = await this.roomRepository.find();
+
+    const rooms = await this.roomRepository.find({relations: ['subject']});
+    if (!rooms) {
+      throw new NotFoundException('rooms not found');
+    }
     return rooms;
   }
 
   async findOne(id: number) {
-    const room = await this.roomRepository.findBy({ id: id });
-    if (room.length === 0) {
+
+    const room = await this.roomRepository.findOne({where: {id}, relations: ['subject']});
+    if (!room) {
+
       throw new NotFoundException('room is not found');
     }
     return room;
@@ -42,11 +48,11 @@ export class RoomsService {
     return updatedRoom;
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<void> {
     const room = await this.roomRepository.delete(id);
     if (room.affected === 0) {
       throw new NotFoundException('the room is not deleted');
     }
-    return room;
+   
   }
 }

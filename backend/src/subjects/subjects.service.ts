@@ -33,14 +33,13 @@ export class SubjectsService {
     if (!subject) {
       throw new NotFoundException(`Subject #${id} not found`);
     }
-    return this.subjectRepository.findOne({where:{id}});
+    return this.subjectRepository.findOne({where:{id}, relations: ['rooms']});
   }
 
-   async remove(id: number){
-    const subject = await this.subjectRepository.findOne({where:{id}});
-    if (!subject) {
-      throw new NotFoundException(`Subject #${id} not found`);
-    }
-    return  this.subjectRepository.delete(id);
+   async remove(id: number):Promise<void> {
+   const result = await this.subjectRepository.delete(id);
+   if(result.affected === 0){
+    throw new NotFoundException(`Subject #${id} not found`);
+   }
   }
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Subject } from '../../subjects/entities/subject.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Room {
@@ -6,6 +7,15 @@ export class Room {
   id: number;
   @Column({ type: 'varchar' })
   name: string;
-  @Column({ type: 'varchar' })
+
+  @Column({ type: 'int' })
   capacity: number;
+
+
+  @ManyToOne(() => Subject, subject => subject.rooms,{onDelete: 'CASCADE'}) 
+  subject: Subject;
+  @Column({ nullable: true})
+  subjectId: number;
+  
+
 }

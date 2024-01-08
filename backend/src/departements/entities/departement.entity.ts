@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { Faculty } from 'src/faculties/entities/faculty.entity';
-import { Entity, Column, PrimaryGeneratedColumn,  ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn,  ManyToOne} from 'typeorm';
 
 @Entity()
 export class Departement {
@@ -13,18 +13,20 @@ export class Departement {
   @Column()
   supervisor: string;
 
-
-
   @Column()
   teachers: string;
 
   
+
+  
+
   @ManyToOne(() => Faculty, faculty => faculty.departments,{onDelete:'CASCADE',onUpdate:'CASCADE'})
+
   faculty: Faculty;
   @Column({ nullable: true})
   facultyId: number; 
   
-
+ 
 
 
 }

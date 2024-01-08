@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
 
 export class CreateRoomDto {
   @IsString()
@@ -6,7 +6,11 @@ export class CreateRoomDto {
   @IsNotEmpty()
   name: string;
   
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   capacity: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  subjectId: number;
 }

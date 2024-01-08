@@ -1,3 +1,5 @@
+
+
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,6 +8,7 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
+
 import { Departement } from '../../departements/entities/departement.entity';
 
 @Entity()
@@ -20,8 +23,10 @@ export class Faculty {
   @Column({ type: 'varchar', length: 40 })
   address: string;
 
+
   @OneToMany(() => Departement, (department) => department.facultyId, {
     cascade: true,
   })
+
   departments: Departement[];
 }
