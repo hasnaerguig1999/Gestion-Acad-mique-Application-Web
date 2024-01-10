@@ -18,8 +18,12 @@ export class FacultiesService {
   }
 
    async findAll(): Promise<Faculty[]> {
-    return await this.facultyRepository.find({relations: ['departments']});
+    const faculties = await this.facultyRepository.find({relations: ['departments']});
+    if (!faculties) throw new NotFoundException;
+    return faculties;
   }
+
+ 
 
    async findOne(id: number): Promise<Faculty> {
     const faculty = await this.facultyRepository.findOne({where:{id},relations: ['departments']});
