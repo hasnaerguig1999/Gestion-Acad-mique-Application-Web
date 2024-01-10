@@ -6,10 +6,12 @@ import { FacultiesModule } from './faculties/faculties.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { RoomsModule } from './rooms/rooms.module';
-
-
-// import { UsersModule } from './users/users.module';
 import { DepartementsModule } from './departements/departements.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { JwtModule } from '@nestjs/jwt';
+
+
 
 dotenv.config();
 
@@ -25,15 +27,20 @@ dotenv.config();
       autoLoadEntities: true,
       synchronize: true,
       logging: true,
+     
+    }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '60m' },
     }),
     BranchesModule,
     FacultiesModule,
     TeachersModule,
     SubjectsModule,
     RoomsModule,
-
-    // UsersModule,
-    DepartementsModule
+    DepartementsModule,
+    AuthModule,
+    UsersModule
   ],
 })
 export class AppModule {}
