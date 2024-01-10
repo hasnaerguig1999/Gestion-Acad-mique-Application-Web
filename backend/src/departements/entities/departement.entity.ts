@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { Faculty } from 'src/faculties/entities/faculty.entity';
 import { Entity, Column, PrimaryGeneratedColumn,  ManyToOne} from 'typeorm';
 

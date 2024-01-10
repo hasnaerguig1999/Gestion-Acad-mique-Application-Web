@@ -11,6 +11,7 @@ export class FacultiesService {
     @InjectRepository(Faculty) private readonly facultyRepository: Repository<Faculty>,
   ) {}
   
+  
   async create(createFacultyDto: CreateFacultyDto): Promise<Faculty> {
     const faculty= await this.facultyRepository.save(createFacultyDto);
     return faculty;
