@@ -7,7 +7,7 @@ export enum UserRole {
     ETUDIANT = 'etudiant',
     DOYEN = 'doyen',
     CHEF_DEPARTEMENT = 'chef_departement',  
-    SUPER_ADMIN = 'super_admin',
+    SUPER_ADMIN = 'superadmin',
 
   }
 @Entity()
