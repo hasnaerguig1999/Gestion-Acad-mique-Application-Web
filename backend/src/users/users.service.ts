@@ -12,7 +12,7 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
   async create(registerUserDto: RegisterUserDto): Promise<User> {
-    const { firstName,lastName,email,role,phoneNumber, password } = registerUserDto;
+    const { userName,email,role,phoneNumber, password } = registerUserDto;
 
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -20,8 +20,7 @@ export class UsersService {
     console.log('hashedPassword', hashedPassword)
 
     const user = new User();
-    user.firstName = firstName;
-    user.lastName = lastName;
+    user.userName = userName;
     user.email = email;
     user.role = role as UserRole; 
     user.phoneNumber = phoneNumber;

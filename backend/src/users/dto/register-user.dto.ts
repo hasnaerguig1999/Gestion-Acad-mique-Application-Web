@@ -2,14 +2,9 @@ import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength } from "class-valida
 
 export class RegisterUserDto {
     @IsString()
-    @MinLength(4,{message:"firstname must be at least 4 characters"})
+    @MinLength(4,{message:"userName must be at least 4 characters"})
     @IsNotEmpty()
-    firstName: string;
-
-    @IsString()
-    @MinLength(4,{message:"lastname must be at least 4 characters"})
-    @IsNotEmpty()
-    lastName: string; 
+    userName: string;
 
     @IsEmail()
     @MinLength(7,{message:"email must be at least 7 characters"})
