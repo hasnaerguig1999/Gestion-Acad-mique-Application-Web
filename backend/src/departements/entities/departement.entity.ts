@@ -15,10 +15,6 @@ export class Departement {
   @Column()
   teachers: string;
 
-  
-
-  
-
   @ManyToOne(() => Faculty, faculty => faculty.departments,{onDelete:'CASCADE',onUpdate:'CASCADE'})
 
   faculty: Faculty;
