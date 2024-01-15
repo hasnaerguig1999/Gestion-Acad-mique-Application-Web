@@ -15,11 +15,12 @@ export class Departement {
   @Column()
   teachers: string;
 
-  @ManyToOne(() => Faculty, faculty => faculty.departments,{onDelete:'CASCADE',onUpdate:'CASCADE'})
+  @ManyToOne(() => Faculty, faculty => faculty.departments,{onDelete:'CASCADE'})
 
   faculty: Faculty;
   @Column({ nullable: true})
   facultyId: number; 
+  
   
  
 
