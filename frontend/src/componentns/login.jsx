@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default function Login() {
   const [formData, setFormData] = useState({
-
+   
     email: '',
     password: '',
   });
@@ -15,17 +15,22 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('http://localhost:3000/auth/sign-in', formData);
+      const response = await axios.post('http://localhost:3000/auth/sign-in', formData); 
       console.log('Login successful');
-      localStorage.setItem('loginData', JSON.stringify(response.data));
-      window.location.href = '/Faculties';
+      localStorage.setItem('loginData', JSON.stringify(response.data)); 
+      if(response.data.role === 'superadmin'){
+        window.location.href = '/faculties';
+      }else if(response.data.role === 'doyen'){
+        window.location.href = '/Departements';
+        
+      }
     } catch (error) {
       if (error.response) {
-        console.error('Registration failed:', error.response.data.message);
+        console.error('Login failed:', error.response.data.message);
       } else {
-        console.error('Registration failed. No response from the server.');
+        console.error('Login failed. No response from the server.');
       }
     }
   };
@@ -75,17 +80,17 @@ export default function Login() {
                   <form id="stripe-login" onSubmit={handleSubmit}>
                     <div className="field padding-bottom--24">
                       <input type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleChange} />
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}/>
                     </div>
                     <div className="field padding-bottom--24">
                       <input type="text"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange} />
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}/>
                     </div>
                     <div className="field padding-bottom--24">
                       <input type="submit" name="submit" value="Submit" />

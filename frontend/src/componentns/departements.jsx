@@ -5,17 +5,18 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import Footer from './footer';
 import Swal from 'sweetalert2';
 export default function Departements() {
+    
     const [departements, setDepartements] = useState([]);
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/departements');
+            console.log(response.data);
+            setDepartements(response.data);
+        } catch (error) {
+            console.error('Failed to fetch departements:', error);
+        }
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/departements');
-                console.log(response.data);
-                setDepartements(response.data);
-            } catch (error) {
-                console.error('Failed to fetch departements:', error);
-            }
-        };
 
         fetchData();
     }, []);

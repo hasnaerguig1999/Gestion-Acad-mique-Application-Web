@@ -8,15 +8,15 @@ import Swal from 'sweetalert2';
 export default function Faculties() {
     const [faculties, setFaculties] = useState([]);
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/faculties');
+            setFaculties(response.data);
+        } catch (error) {
+            console.error('Failed to fetch faculties:', error);
+        }
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/faculties');
-                setFaculties(response.data);
-            } catch (error) {
-                console.error('Failed to fetch faculties:', error);
-            }
-        };
 
         fetchData();
     }, []);
